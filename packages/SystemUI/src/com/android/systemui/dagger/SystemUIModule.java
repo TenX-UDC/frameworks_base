@@ -55,6 +55,7 @@ import com.android.systemui.flags.FeatureFlags;
 import com.android.systemui.flags.FlagsModule;
 import com.android.systemui.keyboard.KeyboardModule;
 import com.android.systemui.keyguard.ui.view.layout.blueprints.KeyguardBlueprintModule;
+import com.android.systemui.tenx.TenXModule;
 import com.android.systemui.log.dagger.LogModule;
 import com.android.systemui.log.dagger.MonitorLog;
 import com.android.systemui.log.table.TableLogBuffer;
@@ -174,6 +175,7 @@ import javax.inject.Named;
             ControlsModule.class,
             DemoModeModule.class,
             DisableFlagsModule.class,
+            TenXModule.class,
             FalsingModule.class,
             FlagsModule.class,
             SystemPropertiesFlagsModule.class,
