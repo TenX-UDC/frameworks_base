@@ -6015,6 +6015,12 @@ public final class Settings {
          */
 
         /**
+         * Enable statusbar double tap gesture on to put device to sleep
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
+        /**
          * @hide
          */
         public static final String QS_TRANSPARENCY = "qs_transparency";
