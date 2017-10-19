@@ -203,6 +203,7 @@ android_library {
         "faceunlock_framework",
     ],
     manifest: "AndroidManifest.xml",
+    additional_manifests: ["TenXManifest.xml"],
 
     javacflags: ["-Adagger.fastInit=enabled"],
     kotlincflags: ["-Xjvm-default=enable"],
