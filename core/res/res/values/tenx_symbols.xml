@@ -127,4 +127,9 @@
     <!-- tenX shade colors -->
     <java-symbol type="color" name="tenx_shade_start_color" />
     <java-symbol type="color" name="tenx_shade_end_color" />
+
+    <!-- Powermenu animations -->
+    <java-symbol type="style" name="GlobalActionsAnimation" />
+    <java-symbol type="style" name="GlobalActionsAnimationTop" />
+    <java-symbol type="style" name="GlobalActionsAnimationEnter" />
 </resources>
