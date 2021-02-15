@@ -7442,5 +7442,7 @@ message MetricsEvent {
     // CustomSettings constant
     CUSTOM_SETTINGS = 1999;
 
+    // TENX Constant
+    TENX = 2222;
   }
 }
