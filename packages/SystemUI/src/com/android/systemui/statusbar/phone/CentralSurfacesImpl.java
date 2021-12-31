@@ -126,6 +126,7 @@ import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.keyguard.ViewMediatorCallback;
 import com.android.systemui.ActivityIntentHelper;
+import com.android.systemui.IdleManager;
 import com.android.systemui.AutoReinflateContainer;
 import com.android.systemui.CoreStartable;
 import com.android.systemui.DejankUtils;
@@ -483,6 +484,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
     /** Controller for the Shade. */
     private final ShadeSurface mShadeSurface;
     private final ShadeLogger mShadeLogger;
+
+   // Arcane Idle
+    private boolean isIdleManagerIstantiated = false;
 
     // settings
     private QSPanelController mQSPanelController;
@@ -2905,6 +2909,17 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
             }
 
             DejankUtils.stopDetectingBlockingIpcs(tag);
+            if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                                              Settings.System.CUSTOM_IDLE_MANAGER, 1,
+                                              mLockscreenUserManager.getCurrentUserId()) == 1) {
+                if (!isIdleManagerIstantiated) {
+                    IdleManager.initManager(mContext);
+                    isIdleManagerIstantiated = true;
+                    IdleManager.executeManager();
+                } else {
+                    IdleManager.executeManager();
+                }
+            }
         }
 
         @Override
@@ -2971,6 +2986,11 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
                 }
             });
             DejankUtils.stopDetectingBlockingIpcs(tag);
+            if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                                              Settings.System.CUSTOM_IDLE_MANAGER, 1,
+                                              mLockscreenUserManager.getCurrentUserId()) == 1) {
+                IdleManager.haltManager();
+            }
         }
 
         /**
