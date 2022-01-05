@@ -5,4 +5,7 @@
 -->
 <resources>
 
+    <!-- FPS Info tile -->
+    <dimen name="fps_info_text_padding">4dp</dimen>
+
 </resources>
