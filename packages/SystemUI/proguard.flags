@@ -3,5 +3,9 @@
 -keep class com.android.systemui.SystemUIInitializerImpl {
     *;
 }
+-keep class * implements com.android.systemui.biometrics.UdfpsDisplayModeProvider {
+    public <init>(...);
+}
 
 -keep,allowoptimization,allowaccessmodification class com.android.systemui.dagger.DaggerReferenceGlobalRootComponent** { !synthetic *; }
+-keep,allowoptimization,allowaccessmodification class com.android.systemui.tv.DaggerTvGlobalRootComponent** { !synthetic *; }
