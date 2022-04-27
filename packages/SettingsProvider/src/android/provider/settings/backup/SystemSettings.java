@@ -101,5 +101,9 @@ public class SystemSettings {
         Settings.System.CAMERA_FLASH_NOTIFICATION,
         Settings.System.SCREEN_FLASH_NOTIFICATION,
         Settings.System.SCREEN_FLASH_NOTIFICATION_COLOR,
+        Settings.System.QS_TILE_LABEL_HIDE,
+        Settings.System.QS_TILE_VERTICAL_LAYOUT,
+        Settings.System.QS_LAYOUT,
+        Settings.System.QQS_LAYOUT
     };
 }
