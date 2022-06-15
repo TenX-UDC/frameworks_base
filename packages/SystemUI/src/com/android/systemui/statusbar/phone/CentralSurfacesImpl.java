@@ -294,6 +294,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
     private static final String NAVIGATION_BAR_SHOW =
             "customsystem:" + Settings.System.NAVIGATION_BAR_SHOW;
 
+    private static final String QS_TRANSPARENCY =
+            "system:" + Settings.System.QS_TRANSPARENCY;
+
     private static final String BANNER_ACTION_CANCEL =
             "com.android.systemui.statusbar.banner_action_cancel";
     private static final String BANNER_ACTION_SETUP =
@@ -967,6 +970,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
         mColorExtractor.addOnColorsChangedListener(mOnColorsChangedListener);
 
         mTunerService.addTunable(this, NAVIGATION_BAR_SHOW);
+        mTunerService.addTunable(this, QS_TRANSPARENCY);
 
         mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         mDisplay = mContext.getDisplay();
@@ -3508,6 +3512,10 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
                         mNavigationBarController.onDisplayRemoved(mDisplayId);
                     }
                 }
+                break;
+            case QS_TRANSPARENCY:
+                mScrimController.setCustomScrimAlpha(
+                        TunerService.parseInteger(newValue, 100));
                 break;
             default:
                 break;
