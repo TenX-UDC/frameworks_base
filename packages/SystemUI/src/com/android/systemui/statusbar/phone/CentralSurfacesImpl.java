@@ -62,6 +62,7 @@ import android.content.om.IOverlayManager;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.ContentObserver;
 import android.graphics.Point;
@@ -190,6 +191,7 @@ import com.android.systemui.scrim.ScrimView;
 import com.android.systemui.settings.UserTracker;
 import com.android.systemui.settings.brightness.BrightnessSliderController;
 import com.android.systemui.shade.CameraLauncher;
+import com.android.systemui.shade.NotificationPanelViewController;
 import com.android.systemui.shade.NotificationShadeWindowView;
 import com.android.systemui.shade.NotificationShadeWindowViewController;
 import com.android.systemui.shade.QuickSettingsController;
@@ -504,6 +506,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
     private final UserTracker mUserTracker;
     private final Provider<FingerprintManager> mFingerprintManager;
     private final TunerService mTunerService;
+    private final NotificationPanelViewController mNewNotificationPanelViewController;
     private final ActivityStarter mActivityStarter;
 
     private GameSpaceManager mGameSpaceManager;
@@ -703,6 +706,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
             JavaAdapter javaAdapter,
             @UiBackground Executor uiBgExecutor,
             ShadeSurface shadeSurface,
+            NotificationPanelViewController newNotificationPanelViewController,
             NotificationMediaManager notificationMediaManager,
             NotificationLockscreenUserManager lockScreenUserManager,
             NotificationRemoteInputManager remoteInputManager,
@@ -813,6 +817,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
         mJavaAdapter = javaAdapter;
         mUiBgExecutor = uiBgExecutor;
         mShadeSurface = shadeSurface;
+        mNewNotificationPanelViewController = newNotificationPanelViewController;
         mMediaManager = notificationMediaManager;
         mLockscreenUserManager = lockScreenUserManager;
         mRemoteInputManager = remoteInputManager;
@@ -1838,6 +1843,12 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_CHARGING_ANIMATION),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCK_SCREEN_CUSTOM_NOTIF),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -1851,6 +1862,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_CHARGING_ANIMATION))) {
                 updateChargingAnimation();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.LOCK_SCREEN_CUSTOM_NOTIF)) ||
+                uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG))) {
+                setMaxKeyguardNotifConfig();
             }
         }
 
@@ -1858,6 +1872,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
             updateDismissButtonBackgroundStyle(mDismissAllButton);
             updateDismissButtonIconStyle(mDismissAllButton);
             updateChargingAnimation();
+            setMaxKeyguardNotifConfig();
         }
     }
 
@@ -3333,6 +3348,16 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces,
     @Override
     public boolean isDeviceInteractive() {
         return mDeviceInteractive;
+    }
+
+    private void setMaxKeyguardNotifConfig() {
+        boolean customMaxKeyguard = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.LOCK_SCREEN_CUSTOM_NOTIF, 0, UserHandle.USER_CURRENT) == 1;
+
+        int maxKeyguardNotifConfig = Settings.System.getIntForUser(mContext.getContentResolver(),
+                 Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG, 3, UserHandle.USER_CURRENT);
+
+        mNewNotificationPanelViewController.updateMaxDisplayedNotifications(customMaxKeyguard);
     }
 
     private final BroadcastReceiver mBannerActionBroadcastReceiver = new BroadcastReceiver() {
