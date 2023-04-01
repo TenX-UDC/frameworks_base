@@ -5799,6 +5799,11 @@ public final class Settings {
         public static final String QS_FOOTER_DATA_USAGE = "qs_footer_data_usage";
         
         /**
+         * @hide
+         */
+        public static final String QS_PANEL_STYLE = "qs_panel_style";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
