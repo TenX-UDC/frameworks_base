@@ -271,6 +271,8 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
     private static final String COUNTER_PANEL_OPEN = "panel_open";
     public static final String COUNTER_PANEL_OPEN_QS = "panel_open_qs";
     private static final String COUNTER_PANEL_OPEN_PEEK = "panel_open_peek";
+    private static final String QS_UI_STYLE =
+            "system:" + Settings.System.QS_UI_STYLE;
     private static final Rect M_DUMMY_DIRTY_RECT = new Rect(0, 0, 1, 1);
     private static final Rect EMPTY_RECT = new Rect();
     /**
@@ -608,6 +610,8 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
     private int mLockscreenToDreamingTransitionTranslationY;
     private int mGoneToDreamingTransitionTranslationY;
     private int mLockscreenToOccludedTransitionTranslationY;
+
+    private boolean mIsA11Style;
 
     private final Runnable mFlingCollapseRunnable = () -> fling(0, false /* expand */,
             mNextCollapseSpeedUpFactor, false /* expandBecauseOfFalsing */);
@@ -4441,6 +4445,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
             mStatusBarStateController.addCallback(mStatusBarStateListener);
             mStatusBarStateListener.onStateChanged(mStatusBarStateController.getState());
             mConfigurationController.addCallback(mConfigurationListener);
+            Dependency.get(TunerService.class).addTunable(this, QS_UI_STYLE);
             // Theme might have changed between inflating this view and attaching it to the
             // window, so
             // force a call to onThemeChanged
@@ -4458,6 +4463,17 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
             mStatusBarStateController.removeCallback(mStatusBarStateListener);
             mConfigurationController.removeCallback(mConfigurationListener);
             mFalsingManager.removeTapListener(mFalsingTapListener);
+        }
+
+        @Override
+        public void onTuningChanged(String key, String newValue) {
+            switch (key) {
+                case QS_UI_STYLE:
+                    mIsA11Style = TunerService.parseInteger(newValue, 0) == 1;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
