@@ -241,6 +241,8 @@ import com.android.server.wm.ActivityTaskManagerService;
 import com.android.server.wm.WindowManagerGlobalLock;
 import com.android.server.wm.WindowManagerService;
 
+import org.tenx.server.QuickSwitchService;
+
 import dalvik.system.VMRuntime;
 
 import java.io.File;
@@ -1775,6 +1777,10 @@ public final class SystemServer implements Dumpable {
                 mSystemServiceManager.startService(AutoDimService.class);
                 t.traceEnd();
             }
+
+            t.traceBegin("QuickSwitchService");
+            mSystemServiceManager.startService(QuickSwitchService.class);
+            t.traceEnd();
         } catch (Throwable e) {
             Slog.e("System", "******************************************");
             Slog.e("System", "************ Failure starting core service");
