@@ -234,6 +234,9 @@ interface ShadeViewController {
     fun getScrollerLayoutController(): NotificationStackScrollLayoutController?
     
     fun getKeyguardBottomAreaView(): KeyguardBottomAreaView?
+    
+    /** island visibility  */
+    fun showIsland(show: Boolean)
 
     /**
      * This method should not be used anymore, you should probably use [.isShadeFullyOpen] instead.
