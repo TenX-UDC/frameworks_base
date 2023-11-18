@@ -88,7 +88,7 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
     private final QuickQSPanelController mQuickQSPanelController;
     private final QuickStatusBarHeader mQuickStatusBarHeader;
     private final QS mQs;
-
+    private final TunerService mTunerService;
     @Nullable
     private PagedTileLayout mPagedLayout;
 
