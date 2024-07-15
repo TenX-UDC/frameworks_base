@@ -19,6 +19,7 @@ import android.provider.Settings;
 
 public class TenXSettingsConstants {
     public static final String QS_PANEL_TILE_HAPTIC = "qs_panel_tile_haptic";
+    public static final String QS_COLORED_ICONS = "qs_colored_icons";
 
     public static final String STATUS_BAR_BATTERY_STYLE = Settings.System.STATUS_BAR_BATTERY_STYLE;
     public static final String QS_BATTERY_STYLE = Settings.System.QS_BATTERY_STYLE;
@@ -64,6 +65,7 @@ public class TenXSettingsConstants {
 
     public static final String[] SYSTEM_SETTINGS_KEYS = {
         QS_PANEL_TILE_HAPTIC,
+	QS_COLORED_ICONS,
         STATUS_BAR_BATTERY_STYLE,
         QS_BATTERY_STYLE,
         QS_SHOW_BATTERY_PERCENT,
