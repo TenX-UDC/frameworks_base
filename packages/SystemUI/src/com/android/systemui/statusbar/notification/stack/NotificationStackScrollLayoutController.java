@@ -1332,12 +1332,12 @@ public class NotificationStackScrollLayoutController implements Dumpable {
     }
 
     public void setMaxAlphaForExpansion(float alpha) {
-        mMaxAlphaForExpansion = alpha;
+        mMaxAlphaForExpansion = alpha < 0.95f ? 0f : alpha;
         updateAlpha();
     }
 
     private void setMaxAlphaForUnhide(float alpha) {
-        mMaxAlphaForUnhide = alpha;
+        mMaxAlphaForUnhide = alpha < 0.95f ? 0f : alpha;
         updateAlpha();
     }
 
@@ -1346,7 +1346,7 @@ public class NotificationStackScrollLayoutController implements Dumpable {
      * transitioning to/from the glanceable hub.
      */
     public void setMaxAlphaForGlanceableHub(float alpha) {
-        mMaxAlphaForGlanceableHub = alpha;
+        mMaxAlphaForGlanceableHub = alpha < 0.95f ? 0f : alpha;
         updateAlpha();
     }
 
