@@ -161,4 +161,7 @@
     <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
     <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
     <java-symbol type="style" name="Animation.Toast.Rotate" />
+
+    <!-- Prop/KeyboxImitationHooks -->
+    <java-symbol type="array" name="config_certifiedKeybox" />
 </resources>
