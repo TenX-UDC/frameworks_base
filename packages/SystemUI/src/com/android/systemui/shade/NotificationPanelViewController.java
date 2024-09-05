@@ -295,6 +295,8 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
             "system:" + Settings.System.NOTIFICATION_MATERIAL_DISMISS;
     private static final String QS_HAPTICS_INTENSITY =
             "system:" + "qs_haptics_intensity";
+    private static final String FLING_ANIMATION_DURATION =
+            "system:" + "fling_animation_duration";
 
     private static final Rect M_DUMMY_DIRTY_RECT = new Rect(0, 0, 1, 1);
     private static final Rect EMPTY_RECT = new Rect();
@@ -649,6 +651,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
     private boolean mBlockedGesturalNavigation = false;
 
     private int mQsHapticsIntensity;
+    private int mFlingAnimationDuration;
 
     private final SplitShadeStateController mSplitShadeStateController;
     private final Runnable mFlingCollapseRunnable = () -> fling(0, false /* expand */,
@@ -2277,6 +2280,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
                 }
             }
         });
+        animator.setDuration(mFlingAnimationDuration);
         if (!mScrimController.isScreenOn() && !mForceFlingAnimationForTest) {
             animator.setDuration(1);
         }
@@ -4745,6 +4749,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
             mTunerService.addTunable(this, DOUBLE_TAP_SLEEP_LOCKSCREEN);
             mTunerService.addTunable(this, NOTIFICATION_MATERIAL_DISMISS);
             mTunerService.addTunable(this, QS_HAPTICS_INTENSITY);
+            mTunerService.addTunable(this, FLING_ANIMATION_DURATION);
             // Theme might have changed between inflating this view and attaching it to the
             // window, so
             // force a call to onThemeChanged
@@ -4787,6 +4792,8 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
                     break;
                 case QS_HAPTICS_INTENSITY:
                     mQsHapticsIntensity = TunerService.parseInteger(newValue, 1);
+                case FLING_ANIMATION_DURATION:
+                    mFlingAnimationDuration = TunerService.parseInteger(newValue, 350);
                     break;
                 default:
                     break;
