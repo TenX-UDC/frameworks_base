@@ -7444,6 +7444,12 @@ public final class Settings {
         public static final String SETTINGS_TENX_DASHBOARD_WEATHER_TYPE = "settings_tenx_dashboard_weather_type";
 
         /**
+         * Settings TenX dashboard battery bar color alpha (For level colors)
+         * @hide
+         */
+	public static final String SETTINGS_TENX_DASHBOARD_BATTERY_LEVEL_COLOR_ALPHA = "settings_tenx_dashboard_battery_level_color_alpha";
+
+        /**
          * Enable\Disable swipe up or down gesture on ambient display like OOS
          * @hide
          */
