@@ -31,6 +31,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import com.android.systemui.AutoReinflateContainer;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
@@ -49,6 +51,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         NotificationMediaManager.MediaListener {
 
     private View mAmbientIndication;
+    private LottieAnimationView mLottieAnimationView;
     private ImageView mAmbientIndicationIcon;
     private boolean mDozing;
     private boolean mKeyguard;
@@ -63,6 +66,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
     private String mLastInfo;
     private int mAmbientMusicTicker;
     private int mAmbientMusicTickerIcon;
+    private boolean mAmbientMusicTickerAnimation;
 
     private CustomSettingsObserver mCustomSettingsObserver;
 
@@ -88,6 +92,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         mTrackInfoSeparator = getResources().getString(R.string.ambientmusic_songinfo);
         mAmbientMusicTicker = getAmbientMusicTickerStyle();
         mAmbientMusicTickerIcon = getAmbientMusicTickerIconStyle();
+        mAmbientMusicTickerAnimation = getAmbientMusicTickerAnimation();
     }
 
     private class CustomSettingsObserver extends ContentObserver {
@@ -103,6 +108,10 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
             mContext.getContentResolver().registerContentObserver(
                     Settings.Secure.getUriFor(
                     Settings.Secure.AMBIENT_MUSIC_TICKER_ICON),
+                    false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.Secure.getUriFor(
+                    Settings.Secure.AMBIENT_MUSIC_TICKER_USE_ANIMATION),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -133,6 +142,11 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
                     Settings.Secure.AMBIENT_MUSIC_TICKER_ICON, 0, UserHandle.USER_CURRENT);
     }
 
+    private boolean getAmbientMusicTickerAnimation() {
+        return Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    Settings.Secure.AMBIENT_MUSIC_TICKER_USE_ANIMATION, 0, UserHandle.USER_CURRENT) != 0;
+    }
+
     private void hideIndication() {
         mInfoAvailable = false;
         mNpInfoAvailable = false;
@@ -156,6 +170,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         mAmbientIndication = findViewById(R.id.ambient_indication);
         mAmbientIndicationIcon = findViewById(R.id.ambient_indication_icon);
         mText = (TextView)findViewById(R.id.ambient_indication_text);
+        mLottieAnimationView = (LottieAnimationView)findViewById(R.id.ambient_indication_lottie_animation);
         if (getAmbientMusicTickerStyle() == 1) {
             boolean nowPlayingAvailable = mMediaManager.getNowPlayingTrack() != null;
             setIndication(nowPlayingAvailable);
@@ -276,7 +291,17 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         switch (getAmbientMusicTickerIconStyle()) {
             case 0: // Default icon
             default:
-                mAmbientIndicationIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_music_note_24dp));
+                if (mAmbientIndicationIcon == null || mAmbientIndicationIcon == null) return;
+                if (!getAmbientMusicTickerAnimation()) {
+                    mAmbientIndicationIcon.setVisibility(View.VISIBLE);
+                    mLottieAnimationView.setVisibility(View.GONE);
+                    mAmbientIndicationIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_music_note_24dp));
+                } else {
+                    mAmbientIndicationIcon.setVisibility(View.GONE);
+                    mLottieAnimationView.setVisibility(View.VISIBLE);
+                    mLottieAnimationView.setAnimation(R.raw.ambient_music_note);
+                    mLottieAnimationView.playAnimation();
+                }
                 break;
             case 1: // App icon
                 if (appIconDrawable != null) {
