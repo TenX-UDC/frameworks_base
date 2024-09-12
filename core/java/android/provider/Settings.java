@@ -7396,6 +7396,36 @@ public final class Settings {
         public static final String SETTINGS_TENX_DASHBOARD_BATTERY_BAR = "settings_tenx_dashboard_battery_bar";
 
         /**
+         * Settings TenX dashboard battery color
+         * @hide
+         */
+        public static final String SETTINGS_TENX_DASHBOARD_BATTERY_LEVEL_COLOR = "settings_tenx_dashboard_battery_level_color";
+
+        /**
+         * Settings TenX dashboard battery color 80%
+         * @hide
+         */
+	public static final String SETTINGS_TENX_DASHBOARD_BATTERY_LEVEL_COLOR_EIGHTY = "settings_tenx_dashboard_battery_level_color_eighty";
+
+        /**
+         * Settings TenX dashboard battery color 60%
+         * @hide
+         */
+	public static final String SETTINGS_TENX_DASHBOARD_BATTERY_LEVEL_COLOR_SIXTY = "settings_tenx_dashboard_battery_level_color_sixty";
+
+        /**
+         * Settings TenX dashboard battery color 40%
+         * @hide
+         */
+	public static final String SETTINGS_TENX_DASHBOARD_BATTERY_LEVEL_COLOR_FOURTY = "settings_tenx_dashboard_battery_level_color_fourty";
+
+        /**
+         * Settings TenX dashboard battery color 20%
+         * @hide
+         */
+	public static final String SETTINGS_TENX_DASHBOARD_BATTERY_LEVEL_COLOR_TWENTY = "settings_tenx_dashboard_battery_level_color_twenty";
+
+        /**
          * Settings TenX dashboard round image radius
          * @hide
          */
