@@ -7456,6 +7456,12 @@ public final class Settings {
         public static final String DOZE_AMBIENT_SWIPE = "doze_ambient_swipe";
 
         /**
+         * Optional settings cards
+         * @hide
+         */
+        public static final String USE_SETTINGS_CARDS = "use_settings_cards";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

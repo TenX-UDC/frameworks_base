@@ -39,8 +39,11 @@ import static com.android.systemui.theme.ThemeOverlayApplier.TIMESTAMP_FIELD;
 import static com.android.systemui.tenx.utils.TenXUtils.MONET_ACCURATE_SHADE_ANDROID;
 import static com.android.systemui.tenx.utils.TenXUtils.MONET_ACCURATE_SHADE_SYSUI;
 import static com.android.systemui.tenx.utils.TenXUtils.MONET_ACCURATE_SHADE_SETTINGS;
+import static com.android.systemui.tenx.utils.TenXUtils.SETTINGS_CARDS;
 import static com.android.systemui.tenx.utils.TenXUtils.getMonetAccurateShadeSetting;
+import static com.android.systemui.tenx.utils.TenXUtils.getSettingsCardsSetting;
 import static com.android.systemui.tenx.utils.TenXUtils.setMonetAccurateShade;
+import static com.android.systemui.tenx.utils.TenXUtils.setSettingsCards;
 
 import android.app.ActivityManager;
 import android.app.UiModeManager;
@@ -1056,6 +1059,25 @@ public class ThemeOverlayController implements CoreStartable, Dumpable {
                         mThemeManager.enableOverlay(MONET_ACCURATE_SHADE_ANDROID, isMonetAccurateShade);
                         mThemeManager.enableOverlay(MONET_ACCURATE_SHADE_SYSUI, isMonetAccurateShade);
                         mThemeManager.enableOverlay(MONET_ACCURATE_SHADE_SETTINGS, isMonetAccurateShade);
+
+                        reevaluateSystemTheme(true /* forceReload */);
+                    }
+                },
+                UserHandle.USER_ALL);
+
+        boolean isShowSettingsCards = getSettingsCardsSetting(mContext);
+        setSettingsCards(isShowSettingsCards);
+        mThemeManager.enableOverlay(SETTINGS_CARDS, !isShowSettingsCards);
+        mSystemSettings.registerContentObserverForUser(
+                Settings.System.getUriFor(Settings.System.USE_SETTINGS_CARDS),
+                false,
+                new ContentObserver(mBgHandler) {
+                    @Override
+                    public void onChange(boolean selfChange, Collection<Uri> collection, int flags,
+                            int userId) {
+                        boolean isShowSettingsCards = getSettingsCardsSetting(mContext);
+                        setSettingsCards(isShowSettingsCards);
+                        mThemeManager.enableOverlay(SETTINGS_CARDS, !isShowSettingsCards);
 
                         reevaluateSystemTheme(true /* forceReload */);
                     }
