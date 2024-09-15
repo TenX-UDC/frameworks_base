@@ -127,15 +127,6 @@ public class ThemeOverlayApplier implements Dumpable {
     @VisibleForTesting
     static final String OVERLAY_CATEGORY_ICON_WIFI =
             "android.theme.customization.wifi_icon";
-    @VisibleForTesting
-    static final String OVERLAY_CATEGORY_ACCURATE_SHADE_ANDROID =
-            "android.theme.customization.monet.accurate_shade_android";
-    @VisibleForTesting
-    static final String OVERLAY_CATEGORY_ACCURATE_SHADE_SYSUI =
-            "android.theme.customization.monet.accurate_shade_systemui";
-    @VisibleForTesting
-    static final String OVERLAY_CATEGORY_ACCURATE_SHADE_SETTINGS =
-            "android.theme.customization.monet.accurate_shade_settings";
     static final String OVERLAY_CATEGORY_NAVBAR =
             "android.theme.customization.navbar";
     @VisibleForTesting
@@ -165,9 +156,6 @@ public class ThemeOverlayApplier implements Dumpable {
             OVERLAY_CATEGORY_ICON_SETTINGS,
             OVERLAY_CATEGORY_ICON_SIGNAL,
             OVERLAY_CATEGORY_ICON_WIFI,
-            OVERLAY_CATEGORY_ACCURATE_SHADE_ANDROID,
-            OVERLAY_CATEGORY_ACCURATE_SHADE_SYSUI,
-            OVERLAY_CATEGORY_ACCURATE_SHADE_SETTINGS,
             OVERLAY_CATEGORY_NAVBAR,
             OVERLAY_CATEGORY_LOCK_CLOCK_FONT,
             OVERLAY_CATEGORY_PROGRESS_BAR,
@@ -184,9 +172,6 @@ public class ThemeOverlayApplier implements Dumpable {
             OVERLAY_CATEGORY_SHAPE,
             OVERLAY_CATEGORY_ICON_ANDROID,
             OVERLAY_CATEGORY_ICON_SYSUI,
-            OVERLAY_CATEGORY_ACCURATE_SHADE_ANDROID,
-            OVERLAY_CATEGORY_ACCURATE_SHADE_SYSUI,
-            OVERLAY_CATEGORY_ACCURATE_SHADE_SETTINGS,
             OVERLAY_CATEGORY_NAVBAR,
             OVERLAY_CATEGORY_LOCK_CLOCK_FONT,
             OVERLAY_CATEGORY_PROGRESS_BAR,
@@ -233,9 +218,6 @@ public class ThemeOverlayApplier implements Dumpable {
         mCategoryToTargetPackage.put(OVERLAY_CATEGORY_ICON_SETTINGS, SETTINGS_PACKAGE);
         mCategoryToTargetPackage.put(OVERLAY_CATEGORY_ICON_SIGNAL, SYSUI_PACKAGE);
         mCategoryToTargetPackage.put(OVERLAY_CATEGORY_ICON_WIFI, SYSUI_PACKAGE);
-        mCategoryToTargetPackage.put(OVERLAY_CATEGORY_ACCURATE_SHADE_ANDROID, ANDROID_PACKAGE);
-        mCategoryToTargetPackage.put(OVERLAY_CATEGORY_ACCURATE_SHADE_SYSUI, SYSUI_PACKAGE);
-        mCategoryToTargetPackage.put(OVERLAY_CATEGORY_ACCURATE_SHADE_SETTINGS, SETTINGS_PACKAGE);
         mCategoryToTargetPackage.put(OVERLAY_CATEGORY_NAVBAR, SYSUI_PACKAGE);
         mCategoryToTargetPackage.put(OVERLAY_CATEGORY_LOCK_CLOCK_FONT, ANDROID_PACKAGE);
         mCategoryToTargetPackage.put(OVERLAY_CATEGORY_PROGRESS_BAR, ANDROID_PACKAGE);

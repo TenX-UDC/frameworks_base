@@ -2752,8 +2752,8 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
     }
 
     private void updateVolumeRowTintH(VolumeRow row, boolean isActive) {
-        boolean isMonetAccurateShade = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.MONET_ACCURATE_SHADE, 0, UserHandle.USER_CURRENT) != 0;
+        int getShadeType = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.TENX_SHADE_TYPE, 0, UserHandle.USER_CURRENT);
 
         if (isActive) {
             row.slider.requestFocus();
@@ -2776,11 +2776,13 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
         final ColorStateList inverseTextTint = Utils.getColorAttr(
                 mContext, com.android.internal.R.attr.textColorOnAccent);
 
-        row.sliderProgressSolid.setTintList(
-            !isMonetAccurateShade
-                    ? colorTint
-                    : ColorStateList.valueOf(mContext.getResources().getColor(R.color.monet_accurate_shade_system))
-        );
+        if (getShadeType == 1 || getShadeType == 3) {
+            row.sliderProgressSolid.setTintList(
+                    ColorStateList.valueOf(mContext.getResources().getColor(R.color.monet_accurate_shade_system)));
+        } else {
+            row.sliderProgressSolid.setTintList(colorTint);
+        }
+
         if (row.sliderProgressIcon != null) {
             row.sliderProgressIcon.setTintList(bgTint);
         }

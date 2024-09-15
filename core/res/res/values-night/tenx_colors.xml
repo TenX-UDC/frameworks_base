@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <!-- TenX shade start color -->
+    <!-- TenX shade color -->
     <color name="tenx_shade_start_color">?attr/colorAccent</color>
     <color name="tenx_shade_end_color">?attr/colorAccent</color>
 </resources>

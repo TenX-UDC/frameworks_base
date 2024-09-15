@@ -255,19 +255,19 @@ public class QSIconViewImpl extends QSIconView {
     private static int getIconColorForState(Context context, QSTile.State state) {
         int setQsIconColor = Settings.System.getIntForUser(context.getContentResolver(),
                 Settings.System.QS_TILE_ICON_COLOR, 0, UserHandle.USER_CURRENT);
-        boolean getAccurateShade = Settings.System.getIntForUser(context.getContentResolver(),
-                Settings.System.MONET_ACCURATE_SHADE, 0, UserHandle.USER_CURRENT) != 0;
+        int getShadeType = Settings.System.getIntForUser(context.getContentResolver(),
+                Settings.System.TENX_SHADE_TYPE, 0, UserHandle.USER_CURRENT);
         if (state.disabledByPolicy || state.state == Tile.STATE_UNAVAILABLE) {
             return Utils.getColorAttrDefaultColor(context, R.attr.outline);
         } else if (state.state == Tile.STATE_INACTIVE) {
             return Utils.getColorAttrDefaultColor(context, R.attr.onShadeInactiveVariant);
         } else if (state.state == Tile.STATE_ACTIVE) {
             if (setQsIconColor == 1) {
-                if (!getAccurateShade) {
+                if (getShadeType == 1 || getShadeType == 3) {
+                    return context.getResources().getColor(R.color.monet_accurate_shade_system);
+                } else {
                     return Utils.getColorAttrDefaultColor(context,
                             android.R.attr.colorAccent);
-                } else {
-                    return context.getResources().getColor(R.color.monet_accurate_shade_system);
                 }
             } else if (setQsIconColor == 2) {
                  return Utils.getColorAttrDefaultColor(context,

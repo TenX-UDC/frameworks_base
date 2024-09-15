@@ -116,10 +116,10 @@ open class QSTileViewImpl @JvmOverloads constructor(
             Settings.System.QS_TILE_UI_STYLE, 0, UserHandle.USER_CURRENT
         ) != 0
 
-    private val getAccurateShade: Boolean = Settings.System.getIntForUser(
+    private val getShadeType: Int = Settings.System.getIntForUser(
             context.contentResolver,
-            Settings.System.MONET_ACCURATE_SHADE, 0, UserHandle.USER_CURRENT
-        ) != 0
+            Settings.System.TENX_SHADE_TYPE, 0, UserHandle.USER_CURRENT
+        )
 
     private val qsTileHaptic: Int = Settings.System.getIntForUser(
             context.contentResolver,
@@ -167,8 +167,10 @@ open class QSTileViewImpl @JvmOverloads constructor(
     private val colorSecondary =
             Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary)
 
-    private val gradientStartColor = resources.getColor(R.color.holo_blue_light)
-    private val gradientEndColor = resources.getColor(R.color.holo_green_light)
+    private val gradientStartColor = resources.getColor(
+            R.color.qs_tile_shade_start_color)
+    private val gradientEndColor = resources.getColor(
+            R.color.qs_tile_shade_end_color)
 
     private val accurateShade = resources.getColor(R.color.monet_accurate_shade_system);
 
@@ -1028,10 +1030,10 @@ open class QSTileViewImpl @JvmOverloads constructor(
                 else if (defaultQsTileStyles == 7)
                     Utils.applyAlpha(0.1f, colorActive)
                 else
-                    if (!getAccurateShade)
-                        colorActive
+                    if (getShadeType == 1 || getShadeType == 3)
+                        accurateShade
                     else
-                       accurateShade
+                       colorActive
             state == Tile.STATE_INACTIVE ->
                 if (defaultQsTileStyles == 4 ||
                         defaultQsTileStyles == 7)

@@ -6893,7 +6893,7 @@ public final class Settings {
          * Monet accurate shade
          * @hide
          */
-        public static final String MONET_ACCURATE_SHADE = "monet_accurate_shade";
+        public static final String TENX_SHADE_TYPE = "tenx_shade_type";
 
         /**
          * Gesture navbar IME space.
