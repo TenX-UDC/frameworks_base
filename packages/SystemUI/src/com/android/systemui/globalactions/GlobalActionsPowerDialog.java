@@ -19,6 +19,7 @@ import android.annotation.NonNull;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.provider.Settings;
 import android.view.CrossWindowBlurListeners;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,14 @@ public class GlobalActionsPowerDialog {
                 context.getTheme()));
         window.addFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.setDimAmount(setPowerMenuDialogDim(context));
+
+        WindowManager.LayoutParams attrs = window.getAttributes();
+        if (attrs != null) {
+            attrs.alpha = setPowerMenuAlpha(context);
+            window.setAttributes(attrs);
+        }
+
         if (blurUtils.supportsBlursOnWindows()) {
             // Enable blur behind
             // Enable dim behind since we are setting some amount dim for the blur.
@@ -96,5 +105,21 @@ public class GlobalActionsPowerDialog {
         }
 
         return dialog;
+    }
+
+    private static float setPowerMenuAlpha(Context context) {
+        int mPowerMenuAlpha = Settings.System.getInt(context.getContentResolver(),
+                Settings.System.TRANSPARENT_POWER_MENU, 100);
+        double dAlpha = mPowerMenuAlpha / 100.0;
+        float alpha = (float) dAlpha;
+        return alpha;
+    }
+
+    private static float setPowerMenuDialogDim(Context context) {
+        int mPowerMenuDialogDim = Settings.System.getInt(context.getContentResolver(),
+                Settings.System.TRANSPARENT_POWER_DIALOG_DIM, 50);
+        double dDim = mPowerMenuDialogDim / 100.0;
+        float dim = (float) dDim;
+        return dim;
     }
 }
