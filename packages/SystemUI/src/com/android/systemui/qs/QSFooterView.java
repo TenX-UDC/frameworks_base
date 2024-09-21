@@ -334,9 +334,9 @@ public class QSFooterView extends FrameLayout {
         updateEditButtonResources();
         updateBuildTextResources();
         MarginLayoutParams lp = (MarginLayoutParams) getLayoutParams();
-        lp.height = !showUsagePanel()
-                    ? getResources().getDimensionPixelSize(R.dimen.qs_footer_height)
-                    : ViewGroup.LayoutParams.WRAP_CONTENT;
+        lp.height = (showUsagePanel() || showSystemInfo())
+                    ? ViewGroup.LayoutParams.WRAP_CONTENT
+                    : getResources().getDimensionPixelSize(R.dimen.qs_footer_height);
         int sideMargin = getResources().getDimensionPixelSize(R.dimen.qs_footer_margin);
         lp.leftMargin = sideMargin;
         lp.rightMargin = sideMargin;
@@ -455,10 +455,7 @@ public class QSFooterView extends FrameLayout {
             mSystemInfo.setVisibility(View.GONE);
         }
 
-        if (mExpanded && (showUsagePanel() && showSystemInfo())) {
-            mView.setVisibility(View.VISIBLE);
-        } else {
-            mView.setVisibility(View.GONE);
-        }
+        boolean showView = mExpanded && showUsagePanel() && showSystemInfo();
+        mView.setVisibility(showView ? View.VISIBLE : View.GONE);
     }
 }
