@@ -37,8 +37,11 @@ import static com.android.systemui.theme.ThemeOverlayApplier.OVERLAY_COLOR_INDEX
 import static com.android.systemui.theme.ThemeOverlayApplier.OVERLAY_COLOR_SOURCE;
 import static com.android.systemui.theme.ThemeOverlayApplier.TIMESTAMP_FIELD;
 import static com.android.systemui.tenx.utils.TenXUtils.SETTINGS_CARDS;
+import static com.android.systemui.tenx.utils.TenXUtils.SETTINGS_HOMEPAGE_AVATAR;
 import static com.android.systemui.tenx.utils.TenXUtils.getSettingsCardsSetting;
+import static com.android.systemui.tenx.utils.TenXUtils.getSettingsHomepageAvatarSetting;
 import static com.android.systemui.tenx.utils.TenXUtils.setSettingsCards;
+import static com.android.systemui.tenx.utils.TenXUtils.setSettingsHomepageAvatar;
 
 import android.app.ActivityManager;
 import android.app.UiModeManager;
@@ -550,6 +553,24 @@ public class ThemeOverlayController implements CoreStartable, Dumpable {
                         setSettingsCards(isShowSettingsCards);
                         mThemeManager.enableOverlay(SETTINGS_CARDS, !isShowSettingsCards);
 
+                        reevaluateSystemTheme(true /* forceReload */);
+                    }
+                },
+                UserHandle.USER_ALL);
+
+        boolean isShowSettingsHomepageAvatar = getSettingsHomepageAvatarSetting(mContext);
+        setSettingsHomepageAvatar(isShowSettingsHomepageAvatar);
+        mThemeManager.enableOverlay(SETTINGS_HOMEPAGE_AVATAR, !isShowSettingsHomepageAvatar);
+        mSystemSettings.registerContentObserverForUser(
+                Settings.System.getUriFor(Settings.System.DISPLAY_SETTINGS_HOMEPAGE_AVATAR),
+                false,
+                new ContentObserver(mBgHandler) {
+                    @Override
+                    public void onChange(boolean selfChange, Collection<Uri> collection, int flags,
+                            int userId) {
+                        boolean isShowSettingsHomepageAvatar = getSettingsHomepageAvatarSetting(mContext);
+                        setSettingsHomepageAvatar(isShowSettingsHomepageAvatar);
+                        mThemeManager.enableOverlay(SETTINGS_HOMEPAGE_AVATAR, !isShowSettingsHomepageAvatar);
                         reevaluateSystemTheme(true /* forceReload */);
                     }
                 },

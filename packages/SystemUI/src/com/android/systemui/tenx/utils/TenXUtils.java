@@ -22,21 +22,37 @@ import com.android.systemui.res.R;
 
 public class TenXUtils {
     public static final String USE_SETTINGS_CARDS = Settings.System.USE_SETTINGS_CARDS;
+    public static final String DISPLAY_SETTINGS_HOMEPAGE_AVATAR = Settings.System.DISPLAY_SETTINGS_HOMEPAGE_AVATAR;
 
     public static final String SETTINGS_CARDS = "com.android.settings.ui_cards";
+    public static final String SETTINGS_HOMEPAGE_AVATAR = "com.android.settings.homepage_avatar";
 
     private static boolean mUseSettingsCards;
+    private static boolean mDisplaySettingsHomepageAvatar;
 
     public static void setSettingsCards(boolean set) {
         mUseSettingsCards = set;
+    }
+
+    public static void setSettingsHomepageAvatar(boolean set) {
+        mDisplaySettingsHomepageAvatar = set;
     }
 
     public static boolean isSettingsCardsEnabled() {
         return mUseSettingsCards;
     }
 
+    public static boolean isSettingsHomepageAvatarEnabled() {
+        return mDisplaySettingsHomepageAvatar;
+    }
+
     public static boolean getSettingsCardsSetting(Context context) {
         return Settings.System.getIntForUser(context.getContentResolver(),
                 USE_SETTINGS_CARDS, 1, UserHandle.USER_CURRENT) == 1;
+    }
+
+    public static boolean getSettingsHomepageAvatarSetting(Context context) {
+        return Settings.System.getIntForUser(context.getContentResolver(),
+                DISPLAY_SETTINGS_HOMEPAGE_AVATAR, 1, UserHandle.USER_CURRENT) == 1;
     }
 }
