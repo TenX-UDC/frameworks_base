@@ -1028,7 +1028,7 @@ open class QSTileViewImpl @JvmOverloads constructor(
                         defaultQsTileStyles == 13)
                     randomColor
                 else if (defaultQsTileStyles == 7)
-                    Utils.applyAlpha(0.2f, colorActive)
+                    Utils.applyAlpha(0.5f, colorActive)
                 else
                     if (getShadeType == 1 || getShadeType == 3)
                         accurateShade
