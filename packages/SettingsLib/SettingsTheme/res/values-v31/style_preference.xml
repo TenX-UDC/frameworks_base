@@ -38,7 +38,8 @@
     <style name="SettingsCategoryPreference.SettingsLib" parent="@style/Preference.Category.Material">
         <item name="iconSpaceReserved">@bool/settingslib_config_icon_space_reserved</item>
         <item name="allowDividerAbove">@bool/settingslib_config_allow_divider</item>
-        <item name="allowDividerBelow">@bool/settingslib_config_allow_divider</item>
+	<item name="allowDividerBelow">@bool/settingslib_config_allow_divider</item>
+	<item name="layout">@layout/tenx_preference_category</item>
     </style>
 
     <style name="SettingsPreference.SettingsLib" parent="@style/Preference.Material">
