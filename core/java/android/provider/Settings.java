@@ -7583,6 +7583,13 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_TIMEOUT = "lockscreen_timeout";
 
+	/**
+        * Toast animations
+        *
+        * @hide
+        */
+        public static final String TOAST_ANIMATION = "toast_animation";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -19522,12 +19529,6 @@ public final class Settings {
          */
         public static final String UIDS_ALLOWED_ON_RESTRICTED_NETWORKS =
                 "uids_allowed_on_restricted_networks";
-
-        /**
-         * Toast animations
-         * @hide
-         */
-        public static final String TOAST_ANIMATION = "toast_animation";
 
         /**
          * Global settings that shouldn't be persisted.

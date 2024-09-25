@@ -1016,9 +1016,9 @@ public class DisplayPolicy {
                         (int) attrs.hideTimeoutMilliseconds,
                         AccessibilityManager.FLAG_CONTENT_TEXT);
 
-                switch(Settings.Global.getInt(mContext.getContentResolver(),
-                        Settings.Global.TOAST_ANIMATION, 1)) {
-                    case 0:
+                switch(Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.TOAST_ANIMATION, 1, UserHandle.USER_CURRENT)) {
+	    	    case 0:
                         attrs.windowAnimations = -1;
                         break;
                     case 1:
