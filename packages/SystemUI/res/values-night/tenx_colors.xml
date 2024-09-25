@@ -32,4 +32,7 @@
     <!-- Face unlock indication -->
     <color name="faceid_title_color">@android:color/system_neutral1_10</color>
     <color name="faceid_background_color">@android:color/system_neutral1_1000</color>
+
+    <!-- QS data usage icon -->
+    <color name="data_usage_icon_color">@android:color/white</color>
 </resources>
