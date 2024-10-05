@@ -7571,6 +7571,12 @@ public final class Settings {
         public static final String CUSTOM_IDLE_MANAGER = "custom_idle_manager";
 
         /**
+         * Whether to show Bluetooth dialog or toggle bluetooth using Bluetooth tile
+         * @hide
+         */
+        public static final String QS_BT_SHOW_DIALOG = "qs_bt_show_dialog";
+
+        /**
          * The amount of time in milliseconds before the device goes to sleep or begins
          * to dream after a period of inactivity in the keyguard.
          * @hide
