@@ -138,8 +138,10 @@ public class QSFooterView extends FrameLayout {
     }
 
     private void setUsageTextDebounced() {
-        mHandler.removeCallbacks(mSetUsageTextRunnable);
-        mHandler.postDelayed(mSetUsageTextRunnable, DEBOUNCE_DELAY_MS);
+        if (mShouldShowDataUsage) {
+            mHandler.removeCallbacks(mSetUsageTextRunnable);
+            mHandler.postDelayed(mSetUsageTextRunnable, DEBOUNCE_DELAY_MS);
+        }
     }
 
     private void setUsageText() {
