@@ -7538,12 +7538,6 @@ public final class Settings {
         public static final String QS_HEADER_CLOCK_SIZE = "qs_header_clock_size";
 
         /**
-         * Whether to enable or disable lockscreen background blur
-         * @hide
-         */
-        public static final String LOCKSCREEN_BLUR = "lockscreen_blur";
-
-        /**
          * Optional settings homepage avatar
          * @hide
          */

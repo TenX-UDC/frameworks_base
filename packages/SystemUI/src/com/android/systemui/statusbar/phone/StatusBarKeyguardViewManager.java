@@ -32,7 +32,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Trace;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -58,7 +57,6 @@ import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.keyguard.KeyguardViewController;
 import com.android.keyguard.TrustGrantFlags;
 import com.android.keyguard.ViewMediatorCallback;
-import com.android.systemui.Dependency;
 import com.android.systemui.biometrics.domain.interactor.UdfpsOverlayInteractor;
 import com.android.systemui.bouncer.domain.interactor.AlternateBouncerInteractor;
 import com.android.systemui.bouncer.domain.interactor.PrimaryBouncerCallbackInteractor;
@@ -94,7 +92,6 @@ import com.android.systemui.shade.ShadeExpansionStateManager;
 import com.android.systemui.shade.ShadeLockscreenInteractor;
 import com.android.systemui.shared.system.QuickStepContract;
 import com.android.systemui.shared.system.SysUiStatsLog;
-import com.android.systemui.statusbar.BlurUtils;
 import com.android.systemui.statusbar.NotificationShadeWindowController;
 import com.android.systemui.statusbar.RemoteInputController;
 import com.android.systemui.statusbar.StatusBarState;
@@ -102,7 +99,6 @@ import com.android.systemui.statusbar.SysuiStatusBarStateController;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.statusbar.phone.FaceUnlockIndicatorView;
-import com.android.systemui.tuner.TunerService;
 import com.android.systemui.unfold.FoldAodAnimationController;
 import com.android.systemui.unfold.SysUIUnfoldComponent;
 import com.android.systemui.user.domain.interactor.SelectedUserInteractor;
@@ -135,7 +131,7 @@ import kotlinx.coroutines.Job;
 public class StatusBarKeyguardViewManager implements RemoteInputController.Callback,
         StatusBarStateController.StateListener, ConfigurationController.ConfigurationListener,
         ShadeExpansionListener, NavigationModeController.ModeChangedListener,
-        KeyguardViewController, FoldAodAnimationController.FoldAodAnimationStatus, TunerService.Tunable {
+        KeyguardViewController, FoldAodAnimationController.FoldAodAnimationStatus {
 
     // When hiding the Keyguard with timing supplied from WindowManager, better be early than late.
     private static final long HIDE_TIMING_CORRECTION_MS = - 16 * 3;
@@ -154,11 +150,6 @@ public class StatusBarKeyguardViewManager implements RemoteInputController.Callb
 
     private static final String TAG = "StatusBarKeyguardViewManager";
     private static final boolean DEBUG = false;
-
-    private static final String LOCKSCREEN_BLUR =
-            "system:" + Settings.System.LOCKSCREEN_BLUR;
-
-    private float mLockScreenBlur;
 
     protected final Context mContext;
     private final ConfigurationController mConfigurationController;
@@ -343,9 +334,6 @@ public class StatusBarKeyguardViewManager implements RemoteInputController.Callb
     @Nullable private KeyguardBypassController mBypassController;
     @Nullable private OccludingAppBiometricUI mOccludingAppBiometricUI;
 
-    private final TunerService mTunerService;
-    private final BlurUtils mBlurUtils;
-
     @Nullable private TaskbarDelegate mTaskbarDelegate;
     private Handler mFaceRecognizingHandler;
     private boolean mFaceRecognitionRunning = false;
@@ -449,9 +437,7 @@ public class StatusBarKeyguardViewManager implements RemoteInputController.Callb
             SelectedUserInteractor selectedUserInteractor,
             Lazy<KeyguardSurfaceBehindInteractor> surfaceBehindInteractor,
             JavaAdapter javaAdapter,
-            @Main Handler faceRecognizingHandler,
-            TunerService tunerService,
-            BlurUtils blurUtils
+            @Main Handler faceRecognizingHandler
     ) {
         mContext = context;
         mViewMediatorCallback = callback;
@@ -486,8 +472,6 @@ public class StatusBarKeyguardViewManager implements RemoteInputController.Callb
         mSurfaceBehindInteractor = surfaceBehindInteractor;
         mJavaAdapter = javaAdapter;
         mFaceRecognizingHandler = faceRecognizingHandler;
-        mTunerService = tunerService;
-        mBlurUtils = blurUtils;
     }
 
     KeyguardTransitionInteractor mKeyguardTransitionInteractor;
@@ -590,19 +574,6 @@ public class StatusBarKeyguardViewManager implements RemoteInputController.Callb
                                     lockscreenVis || animatingSurface
                     ),
                     this::consumeShowStatusBarKeyguardView);
-        }
-        mTunerService.addTunable(this, LOCKSCREEN_BLUR);
-    }
-
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        switch (key) {
-            case LOCKSCREEN_BLUR:
-                mLockScreenBlur =
-                    (float) TunerService.parseInteger(newValue, 0) / 100f;
-                break;
-            default:
-                break;
         }
     }
 
@@ -1400,16 +1371,6 @@ public class StatusBarKeyguardViewManager implements RemoteInputController.Callb
         boolean primaryBouncerIsOrWillBeShowing = primaryBouncerIsOrWillBeShowing();
         boolean primaryBouncerDismissible = !isFullscreenBouncer();
         boolean remoteInputActive = mRemoteInputActive;
-
-        if (mLockScreenBlur > 0f && mBlurUtils.supportsBlursOnWindows()) {
-            if (showing && !occluded) {
-                mBlurUtils.applyBlur(getViewRootImpl(),
-                    (int) mBlurUtils.blurRadiusOfRatio(mLockScreenBlur), false);
-            } else {
-                mBlurUtils.applyBlur(getViewRootImpl(),
-                    (int) mBlurUtils.blurRadiusOfRatio(0), false);
-            }
-        }
 
         if ((primaryBouncerDismissible || !showing || remoteInputActive)
                 != (mLastBouncerDismissible || !mLastShowing || mLastRemoteInputActive)
